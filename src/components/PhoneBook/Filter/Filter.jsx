@@ -2,10 +2,11 @@ import { FilterLabelForm, FilterInputForm } from './Filter.styled';
 // import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getValue } from 'redux/filterSlice';
+import { getFilter } from 'redux/selectors';
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  const value = useSelector(state => state.filter);
+  const value = useSelector(getFilter);
 
   return (
     <>

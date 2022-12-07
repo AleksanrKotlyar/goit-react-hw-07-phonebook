@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import { Box } from '../PhoneBook.styled';
 import { SubmitBtn, LabelForm, InputForm } from './ContactForm.styled';
 // import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { add } from 'redux/contactsSlice';
+import { addContact } from 'redux/contactsOperations';
+import { getContacts } from 'redux/selectors';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const contacts = useSelector(state => state.contacts.contacts);
+  const [phone, setPhone] = useState('');
+  const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const handleOnInputChange = e => {
@@ -18,8 +18,8 @@ export const ContactForm = () => {
       case 'name':
         setName(e.target.value);
         break;
-      case 'number':
-        setNumber(e.target.value);
+      case 'phone':
+        setPhone(e.target.value);
         break;
       default:
         console.log('Invalid subscription type');
@@ -34,11 +34,16 @@ export const ContactForm = () => {
     );
     IsContactInList
       ? alert(`${name} is already in contacts`)
-      : dispatch(add({ name, number, id: nanoid(5) }));
+      : dispatch(
+          addContact({
+            name: e.currentTarget.elements.name.value,
+            phone: e.currentTarget.elements.phone.value,
+          })
+        );
 
     if (!IsContactInList) {
       setName('');
-      setNumber('');
+      setPhone('');
     }
   };
 
@@ -66,8 +71,8 @@ export const ContactForm = () => {
         Number
         <InputForm
           type="tel"
-          name="number"
-          value={number}
+          name="phone"
+          value={phone}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required

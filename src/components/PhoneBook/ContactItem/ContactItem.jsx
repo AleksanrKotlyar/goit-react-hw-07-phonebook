@@ -1,17 +1,16 @@
 import { ContactNumber, DeleteBtn } from './ContactItem.styled';
 import { AiOutlineUserDelete } from 'react-icons/ai';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { remove } from 'redux/contactsSlice';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/contactsOperations';
 
-export const Item = ({ name, number }) => {
-  const contacts = useSelector(state => state.contacts.contacts);
+export const Item = ({ name, phone, id }) => {
   const dispatch = useDispatch();
 
   return (
     <>
-      {name}: <ContactNumber>{number}</ContactNumber>
-      <DeleteBtn type="button" onClick={() => dispatch(remove(contacts.id))}>
+      {name}: <ContactNumber>{phone}</ContactNumber>
+      <DeleteBtn type="button" onClick={() => dispatch(deleteContact(id))}>
         <AiOutlineUserDelete />
         Delete
       </DeleteBtn>
@@ -21,5 +20,6 @@ export const Item = ({ name, number }) => {
 
 Item.propTypes = {
   name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };

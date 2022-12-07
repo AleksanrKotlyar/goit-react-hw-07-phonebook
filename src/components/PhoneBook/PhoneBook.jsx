@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Box, Title, SubTitle, Plug } from './PhoneBook.styled';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
@@ -6,15 +6,19 @@ import { ContactList } from './ContactList/ContactList';
 import { ContactsSkeleton } from 'components/ContactsSkeleton/ContactsSkeleton';
 import { useSelector } from 'react-redux';
 import '../Utils/index.css';
+import { fetchContacts } from 'redux/contactsOperations';
+import { useDispatch } from 'react-redux';
+import { getContacts, IsLoading } from 'redux/selectors';
 
 export const PhoneBook = () => {
-  const contacts = useSelector(state => state.contacts.contacts);
-  const [isLoading, setIsLoading] = useState(false);
+  const contacts = useSelector(getContacts);
+  const isLoading = useSelector(IsLoading);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 1000);
-  }, []);
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <Box
@@ -33,11 +37,10 @@ export const PhoneBook = () => {
     >
       <Title>Phonebook</Title>
       <ContactForm />
-
       <SubTitle>Contacts</SubTitle>
       <Filter />
       {isLoading && <ContactsSkeleton />}
-      {contacts.length === 0 && <Plug> No contacts</Plug>}
+      {!contacts.length && !isLoading && <Plug> No contacts</Plug>}
       {!isLoading && contacts && <ContactList />}
     </Box>
   );
