@@ -13,6 +13,7 @@ import { getContacts, IsLoading } from 'redux/selectors';
 export const PhoneBook = () => {
   const contacts = useSelector(getContacts);
   const isLoading = useSelector(IsLoading);
+  console.log('Loading', isLoading);
 
   const dispatch = useDispatch();
 
@@ -40,7 +41,7 @@ export const PhoneBook = () => {
       <SubTitle>Contacts</SubTitle>
       <Filter />
       {isLoading && <ContactsSkeleton />}
-      {!contacts.length && !isLoading && <Plug> No contacts</Plug>}
+      {contacts.length === 0 && !isLoading && <Plug> No contacts</Plug>}
       {!isLoading && contacts && <ContactList />}
     </Box>
   );
