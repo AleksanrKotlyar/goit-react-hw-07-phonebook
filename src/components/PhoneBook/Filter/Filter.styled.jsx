@@ -10,10 +10,11 @@ export const FilterInputForm = styled.input`
   width: 200px;
   box-shadow: ${p => p.theme.shadows.input};
   border-radius: ${p => p.theme.radii.normal};
+  outline: none;
 
   :hover,
   :focus {
-    background-color: ${p => p.theme.colors.white};
+    background-color: ${p => p.theme.colors.colorInteract};
     box-shadow: none;
   }
 `;

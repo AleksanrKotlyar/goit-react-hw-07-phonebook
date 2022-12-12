@@ -6,6 +6,7 @@ import { SubmitBtn, LabelForm, InputForm } from './ContactForm.styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from 'redux/contactsOperations';
 import { getContacts } from 'redux/selectors';
+import toast from 'react-hot-toast';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
@@ -32,8 +33,18 @@ export const ContactForm = () => {
     const IsContactInList = contacts.find(
       contact => contact.name.toLocaleLowerCase() === normalizeName
     );
+
     IsContactInList
-      ? alert(`${name} is already in contacts`)
+      ? toast.error(`${name} is already in contacts`, {
+          duration: 1500,
+          position: 'top-right',
+          style: {
+            borderRadius: '10px',
+            background: '#f6da26',
+            border: '1px solid #333',
+            color: '#000',
+          },
+        })
       : dispatch(
           addContact({
             name: e.currentTarget.elements.name.value,
